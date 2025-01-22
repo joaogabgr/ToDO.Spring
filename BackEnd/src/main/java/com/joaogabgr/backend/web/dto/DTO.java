@@ -3,7 +3,7 @@ package com.joaogabgr.backend.web.dto;
 import java.io.IOException;
 
 public interface DTO {
-    public Object toEntity() throws IOException;
+    public Object toEntity();
 
     public boolean isValid();
 

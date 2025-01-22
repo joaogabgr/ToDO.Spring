@@ -19,7 +19,7 @@ public class UpdateActivitiesDTO implements DTO {
     private String userId;
 
     @Override
-    public Object toEntity() throws IOException {
+    public Activities toEntity(){
         Activities activities = new Activities();
         activities.setId(id);
         activities.setName(name);

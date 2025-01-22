@@ -18,7 +18,7 @@ public class CreateActivitiesDTO implements DTO {
     private String userId;
 
     @Override
-    public Activities toEntity() throws IOException {
+    public Activities toEntity() {
         Activities activities = new Activities();
         activities.setName(name);
         activities.setDescription(description);
