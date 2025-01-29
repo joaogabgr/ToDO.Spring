@@ -1,5 +1,6 @@
 package com.joaogabgr.backend.core.domain.models;
 
+import com.google.gson.Gson;
 import com.joaogabgr.backend.core.domain.enums.UsersRoles;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -42,6 +44,14 @@ public class User implements UserDetails {
         this.cpf = cpf;
         this.password = password;
         this.role = role;
+    }
+
+    public String getPayload() {
+        String name = getUsername();
+        String role = getRole().toString();
+        Object payload = Map.of("name", name, "role", role);
+        Gson gson = new Gson();
+        return String.format(gson.toJson(payload));
     }
 
     @Override

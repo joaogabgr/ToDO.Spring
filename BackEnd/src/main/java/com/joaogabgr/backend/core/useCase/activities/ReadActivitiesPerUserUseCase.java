@@ -6,5 +6,5 @@ import com.joaogabgr.backend.web.exeption.SystemContextException;
 import java.util.List;
 
 public interface ReadActivitiesPerUserUseCase {
-    List<ReadActivitiesDTO> execute(String userId) throws SystemContextException;
+    List<ReadActivitiesDTO> execute(String userEmail) throws SystemContextException;
 }

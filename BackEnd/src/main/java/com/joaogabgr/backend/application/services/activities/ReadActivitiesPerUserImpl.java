@@ -21,13 +21,14 @@ public class ReadActivitiesPerUserImpl implements ReadActivitiesPerUserUseCase {
     private ConvertActivitiesToReadDTO convertActivitiesToReadDTO;
 
     @Override
-    public List<ReadActivitiesDTO> execute(String userId) throws SystemContextException {
+    public List<ReadActivitiesDTO> execute(String userEmail) throws SystemContextException {
         try {
-            return activitiesRepository.findByUserId(userId).stream()
+            System.out.println("Reading activities for user with ID: " + userEmail);
+            return activitiesRepository.findByUserEmail(userEmail).stream()
                     .map(convertActivitiesToReadDTO::execute)
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            throw new SystemContextException("Error reading activities for user with ID: " + userId + ", " + e.getMessage());
+            throw new SystemContextException("Error reading activities for user with ID: " + userEmail + ", " + e.getMessage());
         }
     }
 }

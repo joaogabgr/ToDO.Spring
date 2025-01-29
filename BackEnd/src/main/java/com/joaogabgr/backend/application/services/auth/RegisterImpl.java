@@ -1,5 +1,6 @@
 package com.joaogabgr.backend.application.services.auth;
 
+import com.joaogabgr.backend.application.operations.user.CheckUserCredentials;
 import com.joaogabgr.backend.core.domain.models.User;
 import com.joaogabgr.backend.core.useCase.auth.RegisterUseCase;
 import com.joaogabgr.backend.web.exeption.SystemContextException;
@@ -16,6 +17,9 @@ public class RegisterImpl implements RegisterUseCase {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CheckUserCredentials checkUserCredentials;
+
     @Override
     public UserDTO register(RegisterDTO data) throws SystemContextException {
         try {
@@ -23,8 +27,16 @@ public class RegisterImpl implements RegisterUseCase {
                 throw new SystemContextException("Invalid data");
             }
 
-            if (userRepository.findByEmail(data.getEmail()) != null) {
-                throw new SystemContextException("Email already registered");
+            if (checkUserCredentials.findEmail(data.getEmail())) {
+                throw new SystemContextException("Email already in use");
+            }
+
+            if (checkUserCredentials.findCpf(data.getCpf())) {
+                throw new SystemContextException("CPF already in use");
+            }
+
+            if (data.getCpf().length() != 11) {
+                throw new SystemContextException("Invalid CPF");
             }
 
             String encodedPassword = encodePassword(data.getPassword());

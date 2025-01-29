@@ -1,0 +1,17 @@
+.index {
+    padding: var(--padding-input);
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+    align-items: start;
+}
+
+.index .status {
+    background-color: var(--off-white-color);
+    padding: var(--padding-input);
+    text-align: center;
+    width: 90%;
+}
