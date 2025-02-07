@@ -42,8 +42,7 @@
     overflow: hidden;
 }
 
-.tasks .changeStatus .statusButton {
-    background-color: var(--blue-color);
+.tasks .button {
     color: var(--white-color);
     padding: var(--padding-input);
     border: none;
@@ -51,6 +50,10 @@
     margin: 5px;
     cursor: pointer;
     width: 100%;
+}
+
+.tasks .changeStatus .statusButton {
+    background-color: var(--blue-color);
 }
 
 .tasks .changeStatus .statusButton:hover {
@@ -63,13 +66,6 @@
 
 .tasks .changeStatus .deleteButton {
     background-color: var(--red-color);
-    color: var(--white-color);
-    padding: var(--padding-input);
-    border: none;
-    border-radius: 5px;
-    margin: 5px;
-    cursor: pointer;
-    width: 100%;
 }
 
 .tasks .changeStatus .deleteButton:hover {
@@ -80,11 +76,23 @@
     background-color: var(--red-hover-color);
 }
 
+.tasks .changeStatus .editButton {
+    background-color: var(--green-color);
+}
+
+.tasks .changeStatus .editButton:hover {
+    background-color: var(--green-hover-color);
+}
+
+.tasks .changeStatus .editButton:active {
+    background-color: var(--green-light);
+}
+
 @keyframes openChangeStatus {
     from {
         height: 0;
     }
     to {
-        height: 243px;
+        height: 303px;
     }
 }

@@ -7,6 +7,8 @@ import LoginComponent from './pages/auth/login';
 import RegisterComponent from './pages/auth/register';
 import RequireAuthAdmin from './contexts/auth/RequireAuthAdmin';
 import { Index } from './pages/index';
+import { CreateFormTasks } from './pages/Activities/FormTasks/createFormTasks';
+import { UpdateFormTasks } from './pages/Activities/FormTasks/updateFormTasks';
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
             <Route path="/login" element={<LoginComponent />} />
             <Route path="/register" element={<RegisterComponent />} />
             <Route path='/' element={<RequireAuthAdmin><Index/></RequireAuthAdmin>} />
+            <Route path='/create' element={<RequireAuthAdmin><CreateFormTasks/></RequireAuthAdmin>} />
+            <Route path='/update/:id' element={<RequireAuthAdmin><UpdateFormTasks/></RequireAuthAdmin>} />
             <Route path="*" element={<div>Pagina inexistente</div>} />
             
           </Routes>

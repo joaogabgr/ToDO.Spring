@@ -14,4 +14,22 @@
     padding: var(--padding-input);
     text-align: center;
     width: 90%;
+    min-height: calc(100vh - var(--padding-input) * 2);
+}
+
+.addActivities {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: var(--padding-input);
+    background-color: var(--blue-color);
+    color: var(--off-white-color);
+    padding: var(--padding-input);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.addActivities:hover {
+    background-color: var(--blue-hover-color);
 }

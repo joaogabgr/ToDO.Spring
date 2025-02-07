@@ -13,7 +13,7 @@ public class FindUser {
     private UserRepository userRepository;
 
     public User execute(String userId) throws SystemContextException {
-        return userRepository.findById(userId).orElseThrow(
+        return userRepository.findByEmail(userId).orElseThrow(
                 () -> new SystemContextException("User not found"));
     }
 }

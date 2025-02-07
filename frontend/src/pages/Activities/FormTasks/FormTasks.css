@@ -1,0 +1,79 @@
+.form-tasks {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--off-white-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.form-tasks form {
+    background-color: var(--white-color);
+    padding: var(--padding-input);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+.form-tasks form title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.form-tasks form input {
+    width: 100%;
+    padding: var(--padding-input);
+    margin: 5px;
+    border: 1px solid var(--gray-color);
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.form-tasks form select {
+    width: 100%;
+    padding: var(--padding-input);
+    margin: 5px;
+    border: 1px solid var(--gray-color);
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+.form-tasks form button {
+    background-color: var(--blue-color);
+    color: var(--white-color);
+    padding: var(--padding-input);
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.form-tasks form button:hover {
+    background-color: var(--blue-hover-color);
+}
+
+.closeForm {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25px;
+    height: 25px;
+    margin: var(--padding-input);
+    background-color: var(--blue-color);
+    color: var(--off-white-color);
+    padding: var(--padding-input);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 25px;
+}
