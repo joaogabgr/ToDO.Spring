@@ -11,7 +11,7 @@ public class CheckUserCredentials {
     private UserRepository userRepository;
 
     public boolean findEmail(String email) {
-        return userRepository.findByEmail(email) != null;
+        return userRepository.findByEmail(email).isPresent();
     }
 
     public boolean findCpf(String cpf) {
