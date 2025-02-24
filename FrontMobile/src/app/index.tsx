@@ -17,7 +17,6 @@ function Main() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("Main montado, validando token...");
     const checkToken = async () => {
       await validateToken();
       setLoading(false);

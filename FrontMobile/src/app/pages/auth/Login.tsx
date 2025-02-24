@@ -4,7 +4,6 @@ import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { borderRadius, colors, margin, padding } from "../../../globalCSS";
-import axios from "axios";
 import { AuthContext } from "@/src/contexts/AuthContext";
 
 export default function Login() {
@@ -15,9 +14,7 @@ export default function Login() {
 
   const loginHandle = async () => {
     try {
-      console.log("Tentando fazer login com email:", email);
       await authContext.login(email, password);
-      console.log("Login bem-sucedido, redirecionando para /pages/Default");
       router.replace('/pages/Default');
     } catch (error) {
       console.error("Erro ao fazer login:", error);

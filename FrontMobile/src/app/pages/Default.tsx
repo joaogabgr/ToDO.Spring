@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AuthContext } from "@/src/contexts/AuthContext";
 import * as SecureStore from 'expo-secure-store';
-import { router } from "expo-router";
 
 export default function Default() {
   const authContext = useContext(AuthContext);
@@ -13,13 +12,11 @@ export default function Default() {
     checkToken();
   };
 
-    // Testando SecureStore manualmente
     const checkToken = async () => {
         const token = await SecureStore.getItemAsync('token');
         console.log("Token armazenado:", token);
     };
     
-
   return (
     <View style={styles.container}>
       <Text style={styles.text}>{authContext.user ? authContext.user.name : "Guest"}</Text>
