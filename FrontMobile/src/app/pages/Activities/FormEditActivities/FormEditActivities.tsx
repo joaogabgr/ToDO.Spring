@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,15 +9,16 @@ import {
   ScrollView,
   Modal,
 } from "react-native";
-import Header from "../../components/header/Header";
+import Header from "../../../components/header/Header";
 import { colors, padding, borderRadius, margin } from "@/src/globalCSS";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { links } from "@/src/api/api";
 import { ErrorAlertComponent } from "@/src/app/components/Alerts/AlertComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { CreateActivities } from "@/src/types/Activities/CreateActivities";
+import { UpdateActivities } from "@/src/types/Activities/UpdateActivities";
 import { AuthContext } from "@/src/contexts/AuthContext";
+import { ActivitiesStatus } from "@/src/app/enum/ActivitiesStatus";
 
 const STATUS_OPTIONS = [
   { label: "Pendente", value: "PENDING" },
@@ -25,16 +26,36 @@ const STATUS_OPTIONS = [
   { label: "Concluído", value: "DONE" },
 ] as const;
 
-export default function FormAddActivities() {
+export default function FormEditActivities() {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const [activity, setActivity] = useState<UpdateActivities | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("PENDING");
+  const [status, setStatus] = useState<ActivitiesStatus>(ActivitiesStatus.PENDING);
   const [showStatusModal, setShowStatusModal] = useState(false);
   const authContext = useContext(AuthContext);
 
+  useEffect(() => {
+    if (params.activity) {
+      try {
+        const parsedActivity = JSON.parse(params.activity as string);
+        setActivity(parsedActivity);
+        setTitle(parsedActivity.name);
+        setDescription(parsedActivity.description);
+        setStatus(parsedActivity.status);
+      } catch (error) {
+        console.error("Erro ao processar dados da atividade:", error);
+        ErrorAlertComponent(
+          "Erro",
+          "Não foi possível carregar os dados da atividade."
+        );
+      }
+    }
+  }, [params.activity]);
+
   const handleSubmit = async () => {
-    if (!title.trim() || !description.trim()) {
+    if (!title.trim() || !description.trim() || !activity) {
       ErrorAlertComponent(
         "Campos obrigatórios",
         "Por favor, preencha todos os campos antes de salvar."
@@ -42,7 +63,8 @@ export default function FormAddActivities() {
       return;
     }
 
-    const Activities: CreateActivities = {
+    const updatedActivity: UpdateActivities = {
+      id: activity.id,
       name: title,
       description: description,
       status: status,
@@ -50,15 +72,15 @@ export default function FormAddActivities() {
     };
 
     try {
-      await links.createActivity(Activities);
+      await links.updateActivity(updatedActivity);
       router.push({
         pathname: "/pages/tabs/ToDo/ToDo",
         params: { refresh: Date.now().toString() }
       });
     } catch (error) {
       ErrorAlertComponent(
-        "Erro ao criar atividade",
-        "Não foi possível criar a atividade. Tente novamente mais tarde."
+        "Erro ao atualizar atividade",
+        "Não foi possível atualizar a atividade. Tente novamente mais tarde."
       );
     }
   };
@@ -68,6 +90,17 @@ export default function FormAddActivities() {
       STATUS_OPTIONS.find((option) => option.value === value)?.label || value
     );
   };
+
+  if (!activity) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <Header />
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Carregando...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -110,7 +143,7 @@ export default function FormAddActivities() {
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>Salvar Atividade</Text>
+            <Text style={styles.buttonText}>Atualizar Atividade</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -129,17 +162,17 @@ export default function FormAddActivities() {
                 key={option.value}
                 style={[
                   styles.modalOption,
-                  status === option.value && styles.modalOptionSelected,
+                  status.toString() === option.value && styles.modalOptionSelected,
                 ]}
                 onPress={() => {
-                  setStatus(option.value);
+                  setStatus(option.value as ActivitiesStatus);
                   setShowStatusModal(false);
                 }}
               >
                 <Text
                   style={[
                     styles.modalOptionText,
-                    status === option.value && styles.modalOptionTextSelected,
+                    status.toString() === option.value && styles.modalOptionTextSelected,
                   ]}
                 >
                   {option.label}
@@ -241,4 +274,13 @@ const styles = StyleSheet.create({
   modalOptionTextSelected: {
     fontWeight: "bold",
   },
-});
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    color: colors.white,
+    fontSize: 16,
+  },
+}); 

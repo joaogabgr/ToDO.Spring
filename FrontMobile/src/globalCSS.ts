@@ -10,6 +10,7 @@ export const colors = {
     orange: '#ff312e',
     red: '#ff0000',
     green: '#01a501',
+    lightGray: 'rgb(182, 182, 182)',
     };
 export const spacing = {
     small: 10,

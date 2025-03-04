@@ -4,7 +4,7 @@ export type ReadActivities = {
     id: string;
     name: string;
     description: string;
-    status: ActivitiesStatus;
+    status: string;
     userName: string;
     date: string;
 };

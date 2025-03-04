@@ -8,7 +8,6 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { SafeAreaView, StyleSheet, Text, View, Alert, ScrollView, TouchableOpacity } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
-import { EmDev } from "@/src/app/components/EmDev/EmDev";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import AddActivitiesButton from "@/src/app/components/AddActivitiesButton/AddActivitiesButton";
 import { ReadActivities } from "@/src/types/Activities/ReadActivities";
@@ -91,7 +90,13 @@ export default function ToDo() {
                 {
                     text: "Editar",
                     onPress: async () => {
-                        router.push('/pages/tabs/MyFamily/MyFamily');
+                        const activityToEdit = activities.find(activity => activity.id === id);
+                        if (activityToEdit) {
+                            router.push({
+                                pathname: "/pages/Activities/FormEditActivities/FormEditActivities",
+                                params: { activity: JSON.stringify(activityToEdit) }
+                            });
+                        }
                     },
                     style: "default"
                 }
@@ -131,6 +136,7 @@ export default function ToDo() {
                                 {...activity}
                                 onDelete={handleDelete}
                                 onEdit={handleEdit}
+                                onStatusChange={ReadActivities}
                             />
                         ))}
                     </View>
