@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useRouter } from "expo-router";
 import { api } from "../api/api";
 import * as SecureStore from 'expo-secure-store';
+import { ErrorAlertComponent } from "../app/components/Alerts/AlertComponent";
 
 export const AuthContext = createContext<AuthContextType>({
     isAuthenticated: false,
@@ -41,8 +42,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
             setUser(JsonUserInfos);
             setIsAuthenticated(true);
+            router.replace('/pages/Default');
         } catch (error) {
-            console.error("Erro ao fazer login:", error);
+            ErrorAlertComponent("Erro", "Erro ao fazer login");
         }
     }
 
@@ -70,7 +72,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
                 }
     
                 api.defaults.headers['Authorization'] = `Bearer ${token}`;
-                setUser(decodedToken.sub);
+                
+                setUser(decodedToken.sub ? JSON.parse(decodedToken.sub) : null);
                 setIsAuthenticated(true);
             } catch (error) {
                 console.error("Erro ao decodificar o token:", error);

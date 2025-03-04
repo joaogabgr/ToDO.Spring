@@ -1,8 +1,8 @@
-import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
+import { View, Text, Button, StyleSheet, TextInput, TouchableOpacity, Alert, SafeAreaView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useRouter } from "expo-router";
 import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { borderRadius, colors, margin, padding } from "../../../globalCSS";
 import { AuthContext } from "@/src/contexts/AuthContext";
 
@@ -13,82 +13,113 @@ export default function Login() {
   const [password, setPassword] = useState('');
 
   const loginHandle = async () => {
-    try {
-      await authContext.login(email, password);
-      router.replace('/pages/Default');
-    } catch (error) {
-      console.error("Erro ao fazer login:", error);
-    }
+    await authContext.login(email, password);
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.container}>
-          <FontAwesomeIcon icon={faUserCircle} style={styles.icon} size={100} />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            onChangeText={(text) =>
-              setEmail(text)
-            }
-            value={email}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Senha"
-            secureTextEntry
-            onChangeText={(text) =>
-              setPassword(text)
-            }
-            value={password}
-          />
-          <TouchableOpacity style={styles.button} onPress={() => loginHandle()}>
-            <Text>Entrar</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.buttonBottom} onPress={() => router.push('/pages/auth/Register')}>
-          <Text>Criar conta</Text>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <SafeAreaView style={styles.container}>
+        <Text style={styles.textUpper}>FamilyPlans</Text>
+        <View style={styles.shapping}></View>
+        <FontAwesomeIcon icon={faUser} size={120} style={styles.icon} />
+        <TextInput
+          style={styles.inputText}
+          onChangeText={text => setEmail(text)}
+          value={email}
+          placeholder="Email"
+          placeholderTextColor={colors.gray}
+        />
+        <TextInput
+          style={styles.inputText}
+          onChangeText={text => setPassword(text)}
+          value={password}
+          placeholder="Password"
+          placeholderTextColor={colors.gray}
+          secureTextEntry={true}
+        />
+        <TouchableOpacity onPress={loginHandle} style={styles.button}>
+          <Text style={styles.textWhite}>Login</Text>
         </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.buttonBottom} onPress={() => router.push('/pages/auth/Register')}>
+          <Text style={styles.textWhite}>Criar conta</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: colors.white,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
   },
 
-  input: {
-    width: 200,
-    height: 40,
-    margin: margin,
-    borderWidth: 1,
+  textUpper: {
+    fontSize: 40,
+    color: colors.white,
+    position: 'absolute',
+    top: 60,
+    backgroundColor: colors.darkGray,
     padding: padding,
-    borderRadius: borderRadius,
+    width: '90%',
+    textAlign: 'center',
+    borderRadius: borderRadius * 2,
+  },
 
+  shapping: {
+    zIndex: -1,
+    backgroundColor: colors.darkGray,
+    borderRadius: borderRadius * 4,
+    padding: padding,
+    margin: margin,
+    width: '90%',
+    height: '85%',
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: 20,
   },
 
   icon: {
-    marginBottom: margin,
+    color: colors.orange,
+    marginBottom: 20,
   },
 
-  buttonBottom: {
-    marginBottom: 30,
+  inputText: {
+    height: 40,
+    width: '80%',
+    margin: 12,
+    
+    padding: 10,
+    borderRadius: borderRadius,
+    backgroundColor: colors.white,
   },
 
   button: {
-    width: 200,
-    height: 40,
-    margin: margin,
+    alignItems: "center",
+    backgroundColor: colors.orange,
     padding: padding,
     borderRadius: borderRadius,
-    backgroundColor: colors.primary,
-    color: colors.secondary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
+    width: '70%',
+    marginTop: margin,
+  },
+
+  buttonBottom: {
+    alignItems: "center",
+    backgroundColor: colors.gray,
+    padding: padding,
+    borderRadius: borderRadius,
+    width: '70%',
+    marginTop: margin,
+    position: 'absolute',
+    bottom: 40,
+  },
+
+  textWhite: {
+    color: colors.white,
+    fontSize: 20,
+  },
 });

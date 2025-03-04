@@ -1,45 +1,41 @@
 import { useContext } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AuthContext } from "@/src/contexts/AuthContext";
-import * as SecureStore from 'expo-secure-store';
+import { colors, padding } from "@/src/globalCSS";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faList, faPeopleGroup, faPeopleRoof, faUtensils } from "@fortawesome/free-solid-svg-icons";
+import Header from "../components/header/Header";
+import Models from "../components/Models/Models";
 
-export default function Default() {
-  const authContext = useContext(AuthContext);
-
-  const handleLogout = async () => {
-    checkToken();
-    authContext.logout();
-    checkToken();
-  };
-
-    const checkToken = async () => {
-        const token = await SecureStore.getItemAsync('token');
-        console.log("Token armazenado:", token);
-    };
-    
+export default function Default() {    
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{authContext.user ? authContext.user.name : "Guest"}</Text>
-      <TouchableOpacity style={styles.button} onPress={handleLogout}>
-        <Text>Deslogar</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Header />
+      <View style={styles.modelsContainer}>
+        <Models icon={faPeopleGroup} title="Minha Familia" color="#008000" onPress='/pages/tabs/MyFamily/MyFamily' />
+        <Models icon={faList} title="Tarefas a fazer" color="#00FFFF" onPress="/pages/tabs/ToDo/ToDo"/>
+        <Models icon={faUtensils} title="Receitas" color="#AAFF00" onPress='/pages/tabs/Receitas/Receitas'/>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
+    backgroundColor: colors.gray,
   },
-  text: {
-    fontSize: 20,
+
+  modelsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    width: "100%",
+    flexWrap: 'wrap',
+    paddingLeft: padding*2,
+    paddingRight: padding*2,
   },
-  button: {
-    backgroundColor: "#f0f0f0",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-  },
+
 });

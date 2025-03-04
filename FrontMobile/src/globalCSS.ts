@@ -3,8 +3,13 @@ export const padding = 10;
 export const margin = 10;
 
 export const colors = {
-    primary: '#000',
-    secondary: '#fff',
+    black: '#000103',
+    white: '#fafafa',
+    gray: '#515052',
+    darkGray: '#333138',
+    orange: '#ff312e',
+    red: '#ff0000',
+    green: '#01a501',
     };
 export const spacing = {
     small: 10,
